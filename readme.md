@@ -3,4 +3,5 @@
 ### If vim :version in without GUI 
     sudo apt-get install vim-gui-common
     sudo apt-get install vim-runtime
+### The theme goes in /usr/share/vim/vim80/colors
 

@@ -1,16 +1,11 @@
+"---------------------------------------
+"- Preferences
+"---------------------------------------
 set nocompatible
-
 syntax enable
 filetype plugin on
 
 set nu
-set hlsearch
-
-
-"---------------------------------------
-"- Preferences
-"---------------------------------------
-
 set tabstop=4
 set softtabstop=4
 "Uses tabstop value if zero
@@ -19,34 +14,21 @@ set textwidth=99
 set expandtab
 set autoindent
 set fileformat=unix
-set incsearch
 
-cmap W w
+set hlsearch " highlight all results of a search
+set incsearch " highlight first result of search whilst typing
+set ignorecase " Use case insensitive search
+set smartcase  "except when using capital letters
+
+command Wq wq
+command Q q
+command W w
 
 " splits
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
-augroup vimrc
-
-autocmd!
-autocmd WinEnter * :resize 1000
-
-augroup END
-
-"---------------------------------------
-"- Session save
-"---------------------------------------
-
-" fu! Save_if_flag()
-"     if g:save_session==1
-"         execute ('mksession! $HOME/.vim/projects/' . g:project_name . '.vim')
-"     endif
-" endfunction
-
-" autocmd VimLeave * call Save_if_flag()
 
 "---------------------------------------
 "- Theme

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+export HISTSIZE=32768;
+export HISTFILESIZE=$HISTSIZE;
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
+
+export PATH=$HOME/.local/jbin:$PATH
+
+alias xpl='xdg-open .'
+alias myrootfind=myrootfind
+alias myfind=myfind
+alias locatedir=locate_dir
+alias displaylog='watch -n 1 tail -n 40 $1'
+
+locate_dir()
+{
+    in=$(locate $1);
+    echo $(dirname $in);
+};
+
+myrootfind()
+{
+    find / -path /timeshift -prune -o -iname $1 2>&1 | grep -iv "permission";
+}
+
+myfind()
+{
+    find $1 -path /timeshift -prune -o -iname $2 2>&1 | grep -iv "permission"
+};
+

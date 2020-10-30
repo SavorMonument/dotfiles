@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+THIS_DIR="$(dirname $(pwd)/$0)"
+
+echo 'Installing vimrc'
+ln -nfs $THIS_DIR/editors/.vimrc /home/$USER/
+
+echo 'Installing vim theme gruvbox'
+ln -nfs $THIS_DIR/editors/gruvbox.vim /usr/share/vim/vim81/colors/
+
+echo 'Installing gitignore'
+ln -nfs $THIS_DIR/.gitignore /home/$USER/
+
+echo 'Installing xfce4 term settings'
+ln -nfs $THIS_DIR/term/therminalrc /home/$USER/.config/xfce4/terminal/
+
+echo 'Installing xfce4 term theme'
+ln -nfs $THIS_DIR/term/anderson.theme /home/$USER/.local/share/xfce4/terminal/colorschemes/
+
+echo 'Installing bashrc'
+ln -nfs $THIS_DIR/term/.jbashrc /home/$USER/
+
+# Include my bashrc in main
+INCLUDE_COMMAND="\nif [ -f ~/.jbashrc ]; then\n  . ~/.jbashrc\nfi\n"
+grep -xqF -- "if [ -f ~/.jbashrc ]; then" /home/$USER/.bashrc || printf "$INCLUDE_COMMAND" >> /home/$USER/.bashrc

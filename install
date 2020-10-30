@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-THIS_DIR="$(dirname $(pwd)/$0)"
+THIS_DIR="$(dirname $(readlink -f $0))"
 
 echo 'Installing vimrc'
 ln -nfs $THIS_DIR/editors/.vimrc /home/$USER/

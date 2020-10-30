@@ -1,6 +1,6 @@
-# My settings for xfce4 desktop and vim
+# Dotfiles
 
-## No idea what i'm doing
+#### No idea what i'm doing
 
 ### To install vundle for vim
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim

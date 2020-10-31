@@ -10,7 +10,7 @@ set tabstop=4
 set softtabstop=4
 "Uses tabstop value if zero
 set shiftwidth=4
-set textwidth=99
+set textwidth=120
 set expandtab
 set autoindent
 set fileformat=unix
@@ -38,10 +38,11 @@ nnoremap <C-H> <C-W><C-H>
 " All themes need the background color from the terminal
 "---------------------------------------
 
+set termguicolors
+
 "Gruvbox theme
 let g:gruvbox_contrast_dark='soft'
 
-set t_Co=256
 "Set them here
 set background=dark
 colorscheme gruvbox

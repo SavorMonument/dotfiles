@@ -21,6 +21,7 @@ set ignorecase " Use case insensitive search
 set smartcase  "except when using capital letters
 
 command Wq wq
+command Wqa wqa
 command Q q
 command W w
 

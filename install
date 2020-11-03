@@ -10,6 +10,7 @@ ln -nfs $THIS_DIR/editors/gruvbox.vim /usr/share/vim/vim81/colors/
 
 echo 'Installing gitignore'
 ln -nfs $THIS_DIR/.gitignore /home/$USER/
+git config --global core.excludesfile /home/$USER/.gitignore
 
 echo 'Installing xfce4 term settings'
 ln -nfs $THIS_DIR/term/therminalrc /home/$USER/.config/xfce4/terminal/

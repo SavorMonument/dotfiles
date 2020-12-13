@@ -4,12 +4,12 @@
 set nocompatible
 syntax enable
 filetype plugin on
+let g:python_recommended_style = 0
 
 set nu
 set tabstop=4
-set softtabstop=4
-"Uses tabstop value if zero
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 set textwidth=120
 set expandtab
 set autoindent
@@ -17,8 +17,8 @@ set fileformat=unix
 
 set hlsearch " highlight all results of a search
 set incsearch " highlight first result of search whilst typing
-set ignorecase " Use case insensitive search
-set smartcase  "except when using capital letters
+" set ignorecase " Use case insensitive search
+" set smartcase  "except when using capital letters
 
 command Wq wq
 command Wqa wqa
@@ -90,7 +90,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'vimwiki/vimwiki'
+" Plugin 'vimwiki/vimwiki'
 Plugin 'tpope/vim-commentary'
 Plugin 'ap/vim-css-color'
 Plugin 'vim-airline/vim-airline'
@@ -103,6 +103,7 @@ Plugin 'jeetsukumaran/vim-pythonsense'
 
 call vundle#end()
 filetype plugin indent on 
+" filetype plugin on
 
 "---------------------------------------
 "- VimWiki
@@ -123,7 +124,7 @@ vmap \\ gc
 "---------------------------------------
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='jsolarized'
+" let g:airline_theme='jsolarized'
 
 "---------------------------------------
 "- PythonSyntax

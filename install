@@ -3,30 +3,30 @@
 THIS_DIR="$(dirname $(readlink -f $0))"
 
 echo 'Installing vimrc'
-ln -nfs $THIS_DIR/editors/.vimrc /home/$USER/
+ln -nfs $THIS_DIR/editors/.vimrc $HOME/
 
 echo 'Installing vim theme gruvbox'
 ln -nfs $THIS_DIR/editors/gruvbox.vim /usr/share/vim/vim81/colors/
 
 echo 'Installing gitignore'
-ln -nfs $THIS_DIR/.gitignore /home/$USER/
-git config --global core.excludesfile /home/$USER/.gitignore
+ln -nfs $THIS_DIR/.gitignore $HOME/
+git config --global core.excludesfile $HOME/.gitignore
 
 echo 'Installing xfce4 term settings'
-ln -nfs $THIS_DIR/term/therminalrc /home/$USER/.config/xfce4/terminal/
+ln -nfs $THIS_DIR/term/therminalrc $HOME/.config/xfce4/terminal/
 
 echo 'Installing xfce4 term theme'
-ln -nfs $THIS_DIR/term/anderson.theme /home/$USER/.local/share/xfce4/terminal/colorschemes/
+ln -nfs $THIS_DIR/term/anderson.theme $HOME/.local/share/xfce4/terminal/colorschemes/
 
 echo 'Installing bashrc'
-ln -nfs $THIS_DIR/term/.jbashrc /home/$USER/
+ln -nfs $THIS_DIR/term/.jbashrc $HOME/
 
 echo 'Installing xinitrc'
-ln -nfs $THIS_DIR/.xinitrc /home/$USER/
-ln -nfs $THIS_DIR/xinitrc.service /home/$USER/.config/systemd/user/
+ln -nfs $THIS_DIR/.xinitrc $HOME/
+ln -nfs $THIS_DIR/xinitrc.service $HOME/.config/systemd/user/
 systemctl --user daemon-reload
 systemctl --user enable xinitrc
 
 # Include my bashrc in main
 INCLUDE_COMMAND="\nif [ -f ~/.jbashrc ]; then\n  . ~/.jbashrc\nfi\n"
-grep -xqF -- "if [ -f ~/.jbashrc ]; then" /home/$USER/.bashrc || printf "$INCLUDE_COMMAND" >> /home/$USER/.bashrc
+grep -xqF -- "if [ -f ~/.jbashrc ]; then" $HOME/.bashrc || printf "$INCLUDE_COMMAND" >> /home/$USER/.bashrc

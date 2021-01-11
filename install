@@ -21,6 +21,12 @@ ln -nfs $THIS_DIR/term/anderson.theme /home/$USER/.local/share/xfce4/terminal/co
 echo 'Installing bashrc'
 ln -nfs $THIS_DIR/term/.jbashrc /home/$USER/
 
+echo 'Installing xinitrc'
+ln -nfs $THIS_DIR/.xinitrc /home/$USER/
+ln -nfs $THIS_DIR/xinitrc.service /home/$USER/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable xinitrc
+
 # Include my bashrc in main
 INCLUDE_COMMAND="\nif [ -f ~/.jbashrc ]; then\n  . ~/.jbashrc\nfi\n"
 grep -xqF -- "if [ -f ~/.jbashrc ]; then" /home/$USER/.bashrc || printf "$INCLUDE_COMMAND" >> /home/$USER/.bashrc

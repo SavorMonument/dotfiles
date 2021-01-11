@@ -1,9 +1,0 @@
-[Unit]
-Description=Commnads to run at startup
-
-[Service]
-Type=oneshot
-ExecStart=%h/.xinitrc
-
-[Install]
-WantedBy=multi-user.target

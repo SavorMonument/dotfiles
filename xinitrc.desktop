@@ -1,0 +1,12 @@
+[Desktop Entry]
+Comment=Setup scripts
+StartupNotify=true
+Exec=/bin/sh -c '$HOME/.xinitrc'
+Terminal=false
+GenericName=xinitrc
+Version=1.0
+Categories=Utility;
+Hidden=false
+Type=Application
+Name=xinitrc
+

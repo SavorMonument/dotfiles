@@ -23,9 +23,7 @@ ln -nfs $THIS_DIR/term/.jbashrc $HOME/
 
 echo 'Installing xinitrc'
 ln -nfs $THIS_DIR/.xinitrc $HOME/
-ln -nfs $THIS_DIR/xinitrc.service $HOME/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user enable xinitrc
+ln -nfs $THIS_DIR/xinitrc.desktop $HOME/.config/autostart/
 
 # Include my bashrc in main
 INCLUDE_COMMAND="\nif [ -f ~/.jbashrc ]; then\n  . ~/.jbashrc\nfi\n"

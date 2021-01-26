@@ -13,7 +13,8 @@ ln -nfs $THIS_DIR/.gitignore $HOME/
 git config --global core.excludesfile $HOME/.gitignore
 
 echo 'Installing xfce4 term settings'
-ln -nfs $THIS_DIR/term/therminalrc $HOME/.config/xfce4/terminal/
+ln -nfs $THIS_DIR/term/terminalrc $HOME/.config/xfce4/terminal/
+ln -nfs $THIS_DIR/term/accels.scm $HOME/.config/xfce4/terminal/
 
 echo 'Installing xfce4 term theme'
 ln -nfs $THIS_DIR/term/anderson.theme $HOME/.local/share/xfce4/terminal/colorschemes/

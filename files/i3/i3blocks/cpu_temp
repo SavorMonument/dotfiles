@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+CPU_TEMP=`sensors | grep Tctl | awk '{print $2}'`
+CPU_TEMP="${CPU_TEMP%\.[0-9]°C}"
+CPU_TEMP="${CPU_TEMP#+}"
+
+echo "$CPU_TEMP°C"
+echo "$CPU_TEMP°C"
+
+if [[ $CPU_TEMP -lt 70 ]]; then 
+  echo "#36AB00"
+else
+  echo "#AB0028"
+fi

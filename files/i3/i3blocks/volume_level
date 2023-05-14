@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+SINK_ID=`pactl list short | grep RUNNING | awk '{print $1}'`
+echo $SINK_ID
+IS_MUTED=`pactl get-sink-mute $SINK_ID | awk '{print $2}'`
+
+if [[ $IS_MUTED == "no" ]]; then
+  VOLUME=`pactl get-sink-volume $SINK_ID | grep Volume | awk '{print $5}'`
+  echo "🔉 $VOLUME"
+else
+  echo "🔇 ---"
+fi
+

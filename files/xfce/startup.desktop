@@ -1,7 +1,7 @@
 [Desktop Entry]
 Comment=Setup scripts
 StartupNotify=true
-Exec=/bin/sh -c '$HOME/.xinitrc'
+Exec=/bin/sh -c '$HOME/dotfiles/files/startup'
 Terminal=false
 GenericName=xinitrc
 Version=1.0

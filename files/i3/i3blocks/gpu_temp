@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+GPU_TEMP=`nvidia-smi -q -d TEMPERATURE | grep "GPU Current" | cut -d ':' -f2 | cut -d " " -f2`
+
+echo "$GPU_TEMP°C"
+echo "$GPU_TEMP°C"
+
+if [[ $GPU_TEMP -lt 85 ]]; then 
+  echo "#36AB00"
+else
+  echo "#AB0028"
+fi

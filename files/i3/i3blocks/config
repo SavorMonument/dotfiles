@@ -1,0 +1,37 @@
+[cpu_usage]
+interval=1
+command=echo "  `$HOME/.config/i3blocks/cpu_usage`"
+min_width=⣾⣄ 100.00%
+
+[temperature]
+command=$HOME/.config/i3blocks/cpu_temp
+interval=1
+
+[temperature]
+command=$HOME/.config/i3blocks/gpu_temp
+interval=1
+
+[memory]
+command=$HOME/.config/i3blocks/memory
+interval=5
+
+[disk]
+command=$HOME/.config/i3blocks/disk
+interval=30
+
+# Query my default IP address only on startup
+[ip]
+command=ip addr | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
+interval=once
+color=#91E78B
+
+[volume]
+command=$HOME/.config/i3blocks/volume_level
+interval=1
+
+# Update time every 5 seconds
+[time]
+command=date +"%a %d-%m-%y %H:%M:%S"
+interval=1
+
+

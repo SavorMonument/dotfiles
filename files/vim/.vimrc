@@ -90,14 +90,17 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'vimwiki/vimwiki'
+Plugin 'vimwiki/vimwiki'
 Plugin 'tpope/vim-commentary'
 Plugin 'ap/vim-css-color'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-python/python-syntax'
 Plugin 'ervandew/supertab'
 Plugin 'jeetsukumaran/vim-pythonsense'
+Plugin 'vim-python/python-syntax'
+
+Plugin 'fatih/vim-go'
+Plugin 'rhysd/vim-clang-format'
 
 " All of your Plugins must be added before the following line
 
@@ -135,6 +138,11 @@ let g:python_highlight_space_errors = 0
 hi link pythonFunctionCall pythonFunction
 
 "---------------------------------------
-"- pythonsense
+"- vim-clang-format
 "---------------------------------------
+
+let g:clang_format#auto_format=1
+let g:clang_format#style_options = {
+            \ "IndentWidth" : 4,
+            \ "ColumnLimit" : 120}
 

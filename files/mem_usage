@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+AVAILABLE=`cat /proc/meminfo | grep -e "^MemAvailable" | sed 's/[^0-9]*//g'`
+AVAILABLE=`echo "scale=2; $AVAILABLE / 1048576" | bc`
+
+TOTAL=`cat /proc/meminfo | grep -e "^MemTotal" | sed 's/[^0-9]*//g'`
+TOTAL=`echo "scale=2; $TOTAL / 1048576" | bc`
+
+USED=`echo "scale=2; $TOTAL - $AVAILABLE" | bc`
+
+echo "$USED"G/"$TOTAL"G

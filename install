@@ -1,31 +1,99 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 THIS_DIR="$(dirname $(readlink -f $0))"
 
-echo 'Installing vimrc'
-ln -nfs $THIS_DIR/editors/.vimrc $HOME/
+mkdir -p $HOME/.config/
 
-echo 'Installing vim theme gruvbox'
-ln -nfs $THIS_DIR/editors/gruvbox.vim /usr/share/vim/vim81/colors/
+echo "Installing local config"
+if [[ $# -eq 0 ]]; then
+  echo "  --full (=for everything)"
+fi
 
-echo 'Installing gitignore'
-ln -nfs $THIS_DIR/.gitignore $HOME/
-git config --global core.excludesfile $HOME/.gitignore
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --full)
+      FULL=1
+      shift # past argument
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)
+      # shift # past argument
+      ;;
+  esac
+done
 
-echo 'Installing xfce4 term settings'
-ln -nfs $THIS_DIR/term/terminalrc $HOME/.config/xfce4/terminal/
-ln -nfs $THIS_DIR/term/accels.scm $HOME/.config/xfce4/terminal/
+### Install apps
+sudo apt update
+sudo apt install curl git fuse libfuse2 xclip git rsync
 
-echo 'Installing xfce4 term theme'
-ln -nfs $THIS_DIR/term/anderson.theme $HOME/.local/share/xfce4/terminal/colorschemes/
+### CONFIGS
+
+echo 'Installing global gitignore'
+# ln -nfs $THIS_DIR/.gitignore $HOME/
+git config --global core.excludesfile $HOME/dotfiles/files/.gitignore
 
 echo 'Installing bashrc'
-ln -nfs $THIS_DIR/term/.jbashrc $HOME/
+# Include my bashrc in the main one if not already included
+INCLUDE_COMMAND="\nif [ -f $THIS_DIR/files/bashrc ]; then\n  . $THIS_DIR/files/bashrc\nfi\n"
+PATTERN="if [ -f $THIS_DIR/files/bashrc ]; then"
+grep -xqF -- "$PATTERN" $HOME/.bashrc || printf "$INCLUDE_COMMAND" >> $HOME/.bashrc
 
-echo 'Installing xinitrc'
-ln -nfs $THIS_DIR/.xinitrc $HOME/
-ln -nfs $THIS_DIR/xinitrc.desktop $HOME/.config/autostart/
+echo 'Installing neovimrc'
+ln -fs -t $HOME/.config $THIS_DIR/files/nvim 
 
-# Include my bashrc in main
-INCLUDE_COMMAND="\nif [ -f ~/.jbashrc ]; then\n  . ~/.jbashrc\nfi\n"
-grep -xqF -- "if [ -f ~/.jbashrc ]; then" $HOME/.bashrc || printf "$INCLUDE_COMMAND" >> /home/$USER/.bashrc
+### NVim
+echo 'Installing neovim'
+curl -fLo $HOME/.local/bin/nvim --create-dirs \
+    https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+chmod +x $HOME/.local/bin/nvim
+
+# Plugin manager
+curl -fLo $HOME/.nvim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+if [[ -n $FULL ]]; then
+  sudo apt install redshift
+fi
+
+echo 'Installing calibre config'
+ln -fs -t $HOME/.config $THIS_DIR/files/calibre
+
+if pgrep "xfce4" > /dev/null; then
+  echo 'Detected XFCE'
+
+  # xcape - allows me to fake map the release of super key to app/whisker menu
+  sudo apt install xcape
+
+  echo 'Installing startup'
+  mkdir -p $HOME/.config/autostart/
+  ln -nfs $THIS_DIR/files/xfce/startup.desktop $HOME/.config/autostart/
+
+  echo 'Installing xfce4 term settings'
+  ln -nfs $THIS_DIR/files/xfce/terminalrc $HOME/.config/xfce4/terminal/
+  # Custom shortcuts
+  # ln -nfs $THIS_DIR/files/xfce/accels.scm $HOME/.config/xfce4/terminal/
+
+  echo 'Installing xfce4 term theme'
+  mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes/
+  ln -nfs $THIS_DIR/files/xfce/anderson.theme $HOME/.local/share/xfce4/terminal/colorschemes/
+elif pgrep "i3" > /dev/null; then
+  echo 'Detected I3'
+
+  sudo apt install jq
+
+  echo 'Installing Xresources'
+  ln -nfs $THIS_DIR/files/i3/.Xresources $HOME/
+
+  echo 'Installing i3 config'
+  rm -rf $HOME/.config/i3/
+  ln -nfs $THIS_DIR/files/i3/i3 $HOME/.config/
+
+  echo 'Make sure to install compton to stop tearing'
+  ln -nfs $THIS_DIR/files/i3/compton.conf $HOME/.config/compton.conf
+
+  echo 'Make sure to install i3blocks for top bar'
+  ln -nfs $THIS_DIR/files/i3/i3blocks $HOME/.config/
+fi

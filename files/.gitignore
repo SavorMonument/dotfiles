@@ -1,0 +1,13 @@
+*.swp
+.gitconfig
+
+# Python
+__pycache__/
+lib/
+venv/
+
+*.log
+*.sqlite3
+
+keys*
+password*

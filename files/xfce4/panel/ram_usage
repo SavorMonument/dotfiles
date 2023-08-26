@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+TOTAL_RAW=`cat /proc/meminfo | grep MemTotal: | tr -s ' ' | cut -d ' ' -f 2`
+
+AVAILABLE_RAW=`cat /proc/meminfo | grep MemAvailable: | tr -s ' ' | cut -d ' ' -f 2`
+
+ACTIVE_RAM=`bc <<< "scale=2;($TOTAL_RAW - $AVAILABLE_RAW) / 1024 / 1024"`
+TOTAL_RAM=`bc <<< "scale=2;$TOTAL_RAW / 1024 / 1024"`
+
+echo $ACTIVE_RAM"G/"$TOTAL_RAM"G"

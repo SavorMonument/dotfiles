@@ -54,12 +54,11 @@ chmod +x $HOME/.local/bin/nvim
 curl -fLo $HOME/.nvim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+ln -s $THIS_DIR/files/ram_usage ~/.local/bin
+
 if [[ -n $FULL ]]; then
   sudo apt install redshift
 fi
-
-echo 'Installing calibre config'
-ln -fs -t $HOME/.config $THIS_DIR/files/calibre
 
 if pgrep "xfce4" > /dev/null; then
   echo 'Detected XFCE'

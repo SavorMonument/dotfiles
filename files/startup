@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set screen timeout to 5 min
-xset dpms 0 0 600
+xset dpms 0 0 3000
 xset s 0 240
 
 # (/usr/bin/redshift -r -l 0:0 -t 3000:3000) &
@@ -11,9 +11,9 @@ xset s 0 240
 (/usr/bin/sleep 10s && /usr/bin/xset r rate 200 45) &
 
 # Disable mouse accel
-xinput --set-prop 'Logitech G203 Prodigy Gaming Mouse' 'libinput Accel Profile Enabled' 0, 1
+# xinput --set-prop 'Logitech G203 Prodigy Gaming Mouse' 'libinput Accel Profile Enabled' 0, 1
 # Set mouse sens
-xinput --set-prop 'Logitech G203 Prodigy Gaming Mouse' 'libinput Accel Speed' -.45
+# xinput --set-prop 'Logitech G203 Prodigy Gaming Mouse' 'libinput Accel Speed' -.45
 
 # Devorak keybindings
 # /usr/bin/xmodmap ~/dotfiles/files/.xmodmap-dvorak

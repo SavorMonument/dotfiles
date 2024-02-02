@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=13.0
+Type=Application
+Terminal=false
+Exec=/home/zzz1/.local/bin/Joplin-2.13.15.AppImage
+Name=Joplin
+Comment=Notes
+#Icon=/home/zzz1/idea-IC-232.9559.62/bin/idea.svg
+

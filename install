@@ -2,35 +2,41 @@
 
 THIS_DIR="$(dirname $(readlink -f $0))"
 
-mkdir -p $HOME/.config/
-
-echo "Installing local config"
-if [[ $# -eq 0 ]]; then
-  echo "  --full (=for everything)"
+if uname -a | grep -i "Debian" > /dev/null; then
+  sudo apt update
+  INSTALL_CMD="sudo apt install -y"
+else 
+  sudo pacman -Syy --noconfirm
+  INSTALL_CMD="sudo pacman -Syy --noconfirm"
 fi
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --full)
-      FULL=1
-      shift # past argument
-      ;;
-    -*|--*)
-      echo "Unknown option $1"
-      exit 1
-      ;;
-    *)
-      # shift # past argument
-      ;;
-  esac
-done
+mkdir -p $HOME/.config/
+echo "Installing local config"
+
+# if [[ $# -eq 0 ]]; then
+#   echo "  --full (=for everything)"
+# fi
+
+# while [[ $# -gt 0 ]]; do
+#   case $1 in
+#     --gui)
+#       GUI=1
+#       shift # past argument
+#       ;;
+#     -*|--*)
+#       echo "Unknown option $1"
+#       exit 1
+#       ;;
+#     *)
+#       # shift # past argument
+#       ;;
+#   esac
+# done
 
 ### Install apps
-sudo apt update
-sudo apt install curl git fuse libfuse2 xclip git rsync
+$INSTALL_CMD curl git fuse libfuse2 xclip git rsync
 
 ### CONFIGS
-
 echo 'Installing global gitignore'
 # ln -nfs $THIS_DIR/.gitignore $HOME/
 git config --global core.excludesfile $HOME/dotfiles/files/.gitignore
@@ -56,15 +62,13 @@ curl -fLo $HOME/.nvim/autoload/plug.vim --create-dirs \
 
 ln -s $THIS_DIR/files/ram_usage ~/.local/bin
 
-if [[ -n $FULL ]]; then
-  sudo apt install redshift
-fi
+ln -s $THIS_DIR/desktop_files/* ~/.local/share/applications/
 
 if pgrep "xfce4" > /dev/null; then
   echo 'Detected XFCE'
 
   # xcape - allows me to fake map the release of super key to app/whisker menu
-  sudo apt install xcape
+  $INSTALL_CMD xcape redshift
 
   echo 'Installing startup'
   mkdir -p $HOME/.config/autostart/
@@ -81,7 +85,7 @@ if pgrep "xfce4" > /dev/null; then
 elif pgrep "i3" > /dev/null; then
   echo 'Detected I3'
 
-  sudo apt install jq
+  $INSTALL_CMD jq redshift
 
   echo 'Installing Xresources'
   ln -nfs $THIS_DIR/files/i3/.Xresources $HOME/

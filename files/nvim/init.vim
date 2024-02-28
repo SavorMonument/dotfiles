@@ -263,10 +263,24 @@ let g:neoformat_jsp_custom = {
             \ }
 
 let g:neoformat_html_custom = {
-            \ 'exe': '/home/zzz1/xml-format/fxml.py',
+            \ 'exe': '/usr/sbin/html-beautify',
             \ 'stdin': 0,
             \ 'valid_exit_codes': [0],
             \ }
+
+lua <<EOF
+vim.filetype.add({
+  -- ...
+  -- Some more configurations
+  -- ...
+  extension = {
+    tmpl = "html",
+  }
+  -- pattern = {
+    -- [".?.tmpl"] = "html",
+  -- },
+})
+EOF
 
 let g:neoformat_enabled_jsp = ['custom']
 let g:neoformat_enabled_html = ['custom']

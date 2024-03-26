@@ -22,32 +22,21 @@ set termguicolors
 set mouse=a
 
 " Aliases
-command Wq wq
-command WQ wq
-command Wqa wqa
-command WQa wqa
-command WQA wqa
-command Q q
-command Qa qa
-command W w
+command! Wq wq
+command! WQ wq
+command! Wqa wqa
+command! WQa wqa
+command! WQA wqa
+command! Q q
+command! Qa qa
+command! W w
 
 " Splits
-nnoremap <C-Left> <C-W><C-H>
-nnoremap <C-Right> <C-W><C-L>
-nnoremap <C-Up> <C-W><C-K>
-nnoremap <C-Down> <C-W><C-J>
+nnoremap <C-Left> <C-w>h
+nnoremap <C-Right> <C-w>l
+nnoremap <C-Up> <C-w>k
+nnoremap <C-Down> <C-w>j
 
-nnoremap <C-h> <C-W><C-H>
-nnoremap <C-l> <C-W><C-L>
-nnoremap <C-k> <C-W><C-K>
-nnoremap <C-j> <C-W><C-J>
-
-" Quotes and paran close
-" inoremap " ""<left>
-" inoremap ' ''<left>
-" inoremap ( ()<left>
-" inoremap [ []<left>
-" inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
 
@@ -79,6 +68,8 @@ Plug 'dcampos/nvim-snippy'
 Plug 'dcampos/cmp-snippy'
 Plug 'honza/vim-snippets'
 call plug#end()
+
+" lua require('init')
 
 " ===================
 " Bogster theme
@@ -366,4 +357,19 @@ for _, lsp in ipairs(servers) do
   }
 end
 EOF
+
+if exists('g:vscode')
+  " VSCode extension
+  nnoremap <space>f <Cmd>lua require("vscode-neovim").action('workbench.action.quickOpen')<CR>
+  nnoremap <space>e <Cmd>lua require("vscode-neovim").action('editor.action.showDefinitionPreviewHover')<CR>
+  nnoremap <space>h <Cmd>lua require("vscode-neovim").action('editor.action.showDefinitionPreviewHover')<CR>
+  nnoremap <space>g <Cmd>lua require("vscode-neovim").action('workbench.action.findInFiles')<CR>
+  nnoremap <space>r <Cmd>lua require("vscode-neovim").action('editor.action.changeAll')<CR>
+  nnoremap <C-Left> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateLeft')<CR>
+  nnoremap <C-Right> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateRight')<CR>
+  nnoremap <C-Up> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateUp')<CR>
+  nnoremap <C-Down> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateDown')<CR>
+  nnoremap <space>a <Cmd>lua require("vscode-neovim").action('editor.action.autoFix')<CR>
+  
+endif
 

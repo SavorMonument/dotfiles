@@ -26,7 +26,7 @@ MiscSlimTabs=TRUE
 MiscNewTabAdjacent=TRUE
 MiscSearchDialogOpacity=100
 MiscShowUnsafePasteDialog=TRUE
-FontName=Monospace 9
+FontName=DejaVu Sans Mono Oblique 9
 ScrollingLines=10000
 ColorForeground=#c5beba
 ColorBackground=#161c23
@@ -35,4 +35,6 @@ ColorPalette=#3B4252;#BF616A;#4D89F2;#EBCB8B;#81A1C1;#B48EAD;#88C0D0;#E5E9F0;#4C
 ColorBold=#D8DEE9
 ColorBoldUseDefault=FALSE
 TabActivityColor=#88C0D0
+MiscRightClickAction=TERMINAL_RIGHT_CLICK_ACTION_CONTEXT_MENU
+FontUseSystem=TRUE
 

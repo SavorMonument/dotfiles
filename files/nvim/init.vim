@@ -45,6 +45,9 @@ Plug 'tpope/vim-commentary'
 Plug 'sbdchd/neoformat'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " autocompletion
 Plug 'neovim/nvim-lspconfig'
@@ -54,6 +57,13 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
+" Copilot
+Plug 'github/copilot.vim'
+
+Plug 'zbirenbaum/copilot.lua'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'vim-python/python-syntax'
 
@@ -62,6 +72,7 @@ Plug 'uiiaoo/java-syntax.vim'
 
 " Theme
 Plug 'vv9k/bogster'
+Plug 'charlespascoe/vim-go-syntax'
 
 " Snippets
 Plug 'dcampos/nvim-snippy'
@@ -70,6 +81,57 @@ Plug 'honza/vim-snippets'
 call plug#end()
 
 " lua require('init')
+"
+
+lua <<EOF
+
+--
+-- For indent-blankline
+--
+local highlight = {
+    "IndentGray",
+}
+
+local hooks = require "ibl.hooks"
+-- create the highlight groups in the highlight setup hook, so they are reset
+-- every time the colorscheme changes
+hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+    vim.api.nvim_set_hl(0, "IndentGray", { fg = "#252f3b" })
+end)
+
+require("ibl").setup { indent = { highlight = highlight } }
+
+-- require("ibl").setup { }
+
+--
+-- For indent-blankline
+--
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 40,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
+EOF
+
+nnoremap <space>t :NvimTreeToggle<CR>
 
 " ===================
 " Bogster theme
@@ -254,12 +316,15 @@ let g:neoformat_jsp_custom = {
             \ }
 
 let g:neoformat_html_custom = {
-            \ 'exe': '/usr/sbin/html-beautify',
+            \ 'exe': '/usr/local/bin/html-beautify',
+            \ 'args': ['--indent-size=2'],
             \ 'stdin': 0,
-            \ 'valid_exit_codes': [0],
+            \ 'valid_exit_codes': [0, 1],
             \ }
 
+
 lua <<EOF
+
 vim.filetype.add({
   -- ...
   -- Some more configurations
@@ -303,7 +368,7 @@ local nvim_lsp = require('lspconfig')
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
-  underline = false,
+  underline = true,
   update_in_insert = false,
   severity_sort = false,
 })
@@ -358,18 +423,23 @@ for _, lsp in ipairs(servers) do
 end
 EOF
 
-if exists('g:vscode')
-  " VSCode extension
-  nnoremap <space>f <Cmd>lua require("vscode-neovim").action('workbench.action.quickOpen')<CR>
-  nnoremap <space>e <Cmd>lua require("vscode-neovim").action('editor.action.showDefinitionPreviewHover')<CR>
-  nnoremap <space>h <Cmd>lua require("vscode-neovim").action('editor.action.showDefinitionPreviewHover')<CR>
-  nnoremap <space>g <Cmd>lua require("vscode-neovim").action('workbench.action.findInFiles')<CR>
-  nnoremap <space>r <Cmd>lua require("vscode-neovim").action('editor.action.changeAll')<CR>
-  nnoremap <C-Left> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateLeft')<CR>
-  nnoremap <C-Right> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateRight')<CR>
-  nnoremap <C-Up> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateUp')<CR>
-  nnoremap <C-Down> <Cmd>lua require("vscode-neovim").action('workbench.action.navigateDown')<CR>
-  nnoremap <space>a <Cmd>lua require("vscode-neovim").action('editor.action.autoFix')<CR>
-  
-endif
+" Copilot
+
+imap <silent><script><expr> <Leader><Tab> copilot#Accept("\<CR>")
+      let g:copilot_no_tab_map = v:true
+
+
+lua << EOF
+  require("CopilotChat").setup {
+    debug = false, -- Enable debugging
+    model = 'gpt-4', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
+    temperature = 0.1, -- GPT temperature
+    window = {
+      layout = 'horizontal',
+    }
+  }
+
+EOF
+
+nnoremap <space>c :CopilotChatToggle<CR>
 

@@ -125,7 +125,10 @@ require("nvim-tree").setup({
     group_empty = true,
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
+  },
+  git = {
+    enable = false,
   },
 })
 
@@ -303,9 +306,9 @@ let g:neoformat_rust_rustfmt = {
               \ 'stdin': 1,
               \ }
 
-let g:neoformat_java_clangformat = {
-            \ 'exe': 'clang-format',
-            \ 'args': ['-assume-filename=.java', '-style="{IndentWidth: 2, ColumnLimit: 100, AllowShortFunctionsOnASingleLine: false}"'],
+let g:neoformat_java_astyle = {
+            \ 'exe': 'astyle',
+            \ 'args': ['--mode=java', '-s2', '2>', '/tmp/neoformat/stderr.log'],
             \ 'stdin': 1,
             \ }
 
@@ -340,6 +343,7 @@ EOF
 
 let g:neoformat_enabled_jsp = ['custom']
 let g:neoformat_enabled_html = ['custom']
+let g:neoformat_enabled_java = ['astyle']
 
 noremap <space>w :Neoformat<CR>
 
@@ -430,15 +434,15 @@ imap <silent><script><expr> <Leader><Tab> copilot#Accept("\<CR>")
 
 
 lua << EOF
+
   require("CopilotChat").setup {
-    debug = false, -- Enable debugging
+    debug = true, -- Enable debugging
     model = 'gpt-4', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
     temperature = 0.1, -- GPT temperature
     window = {
       layout = 'horizontal',
     }
   }
-
 EOF
 
 nnoremap <space>c :CopilotChatToggle<CR>

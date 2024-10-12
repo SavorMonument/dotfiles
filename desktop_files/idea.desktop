@@ -2,8 +2,8 @@
 Version=13.0
 Type=Application
 Terminal=false
-Exec=/home/zzz1/idea-IC-233.14015.106/bin/idea.sh
+Exec=/home/zzz1/intelijIdea/bin/idea.sh
 Name=IntelliJ idea
 Comment=Java IDE
-Icon=/home/zzz1/idea-IC-233.14015.106/bin/idea.svg
+Icon=/home/zzz1/intelijIdea/bin/idea.svg
 

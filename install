@@ -53,7 +53,8 @@ ln -fs -t $HOME/.config $THIS_DIR/files/nvim
 ### NVim
 echo 'Installing neovim'
 curl -fLo $HOME/.local/bin/nvim --create-dirs \
-    https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    https://github.com/neovim/neovim/releases/download/v0.11.0/nvim-linux-x86_64.appimage
+    # https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 chmod +x $HOME/.local/bin/nvim
 
 # Plugin manager

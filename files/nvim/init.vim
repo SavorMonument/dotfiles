@@ -43,11 +43,11 @@ inoremap {;<CR> {<CR>};<ESC>O
 call plug#begin()
 Plug 'tpope/vim-commentary'
 Plug 'sbdchd/neoformat'
-Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim', { 'commit': '171d4d5a1560ccb556e94aa6df7e969068384049' }
 
 " autocompletion
 Plug 'neovim/nvim-lspconfig'
@@ -59,10 +59,14 @@ Plug 'hrsh7th/nvim-cmp'
 
 " Copilot
 Plug 'github/copilot.vim'
-
 Plug 'zbirenbaum/copilot.lua'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'main' }
+Plug 'gergap/vim-ollama'
+
+
+" Codeium
+" Plug 'Exafunction/codeium.vim'
 
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'vim-python/python-syntax'
@@ -95,9 +99,8 @@ local highlight = {
 local hooks = require "ibl.hooks"
 -- create the highlight groups in the highlight setup hook, so they are reset
 -- every time the colorscheme changes
-hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-    vim.api.nvim_set_hl(0, "IndentGray", { fg = "#252f3b" })
-end)
+hooks.register(hooks.type.HIGHLIGHT_SETUP, function() vim.api.nvim_set_hl(0, "IndentGray", { fg = "#252f3b" }) end)
+
 
 require("ibl").setup { indent = { highlight = highlight } }
 
@@ -109,9 +112,6 @@ require("ibl").setup { indent = { highlight = highlight } }
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
--- optionally enable 24-bit colour
-vim.opt.termguicolors = true
 
 -- empty setup using defaults
 require("nvim-tree").setup({
@@ -130,11 +130,12 @@ require("nvim-tree").setup({
   git = {
     enable = false,
   },
+
 })
 
 EOF
 
-nnoremap <space>t :NvimTreeToggle<CR>
+nnoremap <space>t :NvimTreeFindFileToggle<CR>
 
 " ===================
 " Bogster theme
@@ -184,8 +185,8 @@ lua <<EOF
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-        { name = 'snippy' }, -- For snippy users.
-        { name = 'path' }, -- For snippy users.
+      { name = 'snippy' }, -- For snippy users.
+      { name = 'path' }, -- For snippy users.
     }, {
       { name = 'buffer' },
     })
@@ -302,7 +303,7 @@ let g:neoformat_cpp_clangformat = {
 
 let g:neoformat_rust_rustfmt = {
               \ 'exe': "rustfmt",
-              \ 'args': ["--edition 2021"],
+              \ 'args': ["--edition 2024"],
               \ 'stdin': 1,
               \ }
 
@@ -320,11 +321,18 @@ let g:neoformat_jsp_custom = {
 
 let g:neoformat_html_custom = {
             \ 'exe': '/usr/local/bin/html-beautify',
-            \ 'args': ['--indent-size=2'],
+            \ 'args': ['--indent-size=2', '-w', '100', '--wrap-attributes', 'force-aligned'],
             \ 'stdin': 0,
             \ 'valid_exit_codes': [0, 1],
             \ }
 
+let g:neoformat_enabled_yaml = ['prettier']
+
+" let g:neoformat_html_custom = {
+"             \ 'exe': '/usr/local/bin/prettier',
+"             \ 'args': ['--print-width', '100', '--bracket-same-line', 'true', '--parser', 'html', '%:p'],
+"             \ 'stdin': 1,
+"             \ }
 
 lua <<EOF
 
@@ -430,20 +438,32 @@ EOF
 " Copilot
 
 imap <silent><script><expr> <Leader><Tab> copilot#Accept("\<CR>")
-      let g:copilot_no_tab_map = v:true
+    " let g:copilot_no_tab_map = v:true
 
 
 lua << EOF
 
-  require("CopilotChat").setup {
-    debug = true, -- Enable debugging
-    model = 'gpt-4', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
-    temperature = 0.1, -- GPT temperature
-    window = {
-      layout = 'horizontal',
-    }
-  }
+require("CopilotChat").setup {
+   debug = true, -- Enable debugging
+   model = 'gpt-4o', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
+   temperature = 0.1, -- GPT temperature
+   window = {
+    layout = 'horizontal',
+   },
+}
 EOF
 
+" for copilot.vim
+let g:copilot_settings = #{selectedCompletionModel: 'Meta-Llama-3-70B-Instruct'}
+
+
 nnoremap <space>c :CopilotChatToggle<CR>
+
+" Codeium
+" let g:codeium_disable_bindings = 1
+" imap <script><silent><nowait><expr> <Leader><Tab> codeium#Accept()
+" " imap <script><silent><nowait><expr> <Leader><Tab> codeium#CycleOrComplete()<CR>
+
+" nnoremap <space>c :call codeium#Chat()<CR>
+
 

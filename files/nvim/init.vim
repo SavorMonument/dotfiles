@@ -326,6 +326,13 @@ let g:neoformat_html_custom = {
             \ 'valid_exit_codes': [0, 1],
             \ }
 
+let g:neoformat_css_custom = {
+            \ 'exe': '/usr/local/bin/css-beautify',
+            \ 'args': ['--indent-size=2'],
+            \ 'stdin': 1,
+            \ 'valid_exit_codes': [0, 1],
+            \ }
+
 let g:neoformat_enabled_yaml = ['prettier']
 
 " let g:neoformat_html_custom = {
@@ -351,6 +358,7 @@ EOF
 
 let g:neoformat_enabled_jsp = ['custom']
 let g:neoformat_enabled_html = ['custom']
+let g:neoformat_enabled_css = ['custom']
 let g:neoformat_enabled_java = ['astyle']
 
 noremap <space>w :Neoformat<CR>
@@ -445,7 +453,7 @@ lua << EOF
 
 require("CopilotChat").setup {
    debug = true, -- Enable debugging
-   model = 'gpt-4o', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
+   model = 'gpt-4.1', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
    temperature = 0.1, -- GPT temperature
    window = {
     layout = 'horizontal',
@@ -454,8 +462,8 @@ require("CopilotChat").setup {
 EOF
 
 " for copilot.vim
-let g:copilot_settings = #{selectedCompletionModel: 'Meta-Llama-3-70B-Instruct'}
-
+" let g:copilot_settings = #{selectedCompletionModel: 'Meta-Llama-3-70B-Instruct'}
+let g:copilot_settings = #{selectedCompletionModel: 'gpt-4.1'}
 
 nnoremap <space>c :CopilotChatToggle<CR>
 

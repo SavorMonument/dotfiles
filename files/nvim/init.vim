@@ -7,11 +7,11 @@ filetype plugin on
 syntax on
 
 set nu
+set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set textwidth=120
-set expandtab
 set autoindent
 set fileformat=unix
 set guicursor=i:block
@@ -57,19 +57,21 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
+Plug 'mfussenegger/nvim-jdtls'
+
 " Copilot
 Plug 'github/copilot.vim'
-Plug 'zbirenbaum/copilot.lua'
+" Plug 'zbirenbaum/copilot.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'main' }
-Plug 'gergap/vim-ollama'
-
 
 " Codeium
 " Plug 'Exafunction/codeium.vim'
 
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'vim-python/python-syntax'
+Plug 'integralist/vim-mypy'
+
 
 Plug 'ap/vim-css-color'
 Plug 'uiiaoo/java-syntax.vim'
@@ -147,6 +149,9 @@ highlight ColorColumn guibg=#263640
 
 let g:python_highlight_all = 1
 let g:python_highlight_space_errors = 0
+" Prevent default python indent to 4 spaces
+let g:python_recommended_style=0
+let g:rust_recommended_style=0
 
 " ===================
 " nvim-cmp
@@ -221,14 +226,14 @@ lua <<EOF
 
   -- Setup lspconfig.
   -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  local servers = {'rust_analyzer', 'gopls', 'clangd', 'jedi_language_server', 'jdtls'}
-  for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup {
-      capabilities = capabilities
-    }
-  end
+  -- local servers = {'rust_analyzer', 'gopls', 'clangd', 'jedi_language_server', 'jdtls'}
+  -- for _, lsp in ipairs(servers) do
+    -- require('lspconfig')[lsp].setup {
+      -- capabilities = capabilities
+    -- }
+  -- end
 
 -- TAB completion
 
@@ -303,7 +308,7 @@ let g:neoformat_cpp_clangformat = {
 
 let g:neoformat_rust_rustfmt = {
               \ 'exe': "rustfmt",
-              \ 'args': ["--edition 2024"],
+              \ 'args': ["--edition", "2024", "--config", "tab_spaces=2"],
               \ 'stdin': 1,
               \ }
 
@@ -382,9 +387,6 @@ nnoremap <space>a :lua vim.lsp.buf.code_action()<CR>
 set completeopt-=preview
 
 lua <<EOF
-local nvim_lsp = require('lspconfig')
--- vim.lsp.set_log_level("debug")
-
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
@@ -432,15 +434,32 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<C-LeftMouse>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 end
 
-local servers = {'rust_analyzer', 'gopls', 'clangd', 'jedi_language_server', 'jdtls'}
+vim.lsp.config['gopls'] = {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    gopls = {
+      buildFlags = {"-tags=integration",}
+    }
+  }
+}
+
+vim.lsp.enable('gopls')
+
+local servers = {'rust_analyzer', 'clangd', 'jedi_language_server', 'jdtls'}
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+  vim.lsp.config[lsp] = {
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
     }
   }
+  vim.lsp.enable(lsp)
 end
+
+
 EOF
 
 " Copilot
@@ -473,5 +492,3 @@ nnoremap <space>c :CopilotChatToggle<CR>
 " " imap <script><silent><nowait><expr> <Leader><Tab> codeium#CycleOrComplete()<CR>
 
 " nnoremap <space>c :call codeium#Chat()<CR>
-
-

@@ -21,17 +21,20 @@ interval=30
 
 # Query my default IP address only on startup
 [ip]
-command=ip addr | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
-interval=once
+command=ip addr | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | sed ':a;N;$!ba;s/\n/ /g' | sed 's/ $/\n/'
+interval=5
 color=#91E78B
 
 [volume]
 command=$HOME/.config/i3blocks/volume_level
 interval=1
 
+[battery2]
+command=$HOME/.config/i3blocks/battery2
+markup=pango
+interval=5
+
 # Update time every 5 seconds
 [time]
 command=date +"%a %d-%m-%y %H:%M:%S"
 interval=1
-
-

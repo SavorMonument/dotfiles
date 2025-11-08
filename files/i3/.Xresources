@@ -56,3 +56,6 @@ URxvt.keysym.Control-Right:    \033[1;5C
 !URxvt.perl-ext-common: default,tabbed,matcher,selection-to-clipboard
 !URxvt.tabbed.new-button: false
 !URxvt.keysym.Control-t:	perl:tabbed:new_tab
+
+
+Xft.dpi: 150

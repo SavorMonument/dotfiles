@@ -1,0 +1,23 @@
+# If not running interactively, don't do anything (leave this at the top of this file)
+[[ $- != *i* ]] && return
+
+PATH=$PATH:"/sbin/"
+
+alias ll="ls -la"
+alias vi="~/.local/bin/nvim"
+alias xpl="xdg-open ."
+
+export LESS="-R"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+if uname -a | grep -i "microsoft-standard-WSL2" >/dev/null; then
+
+  if command -v tmux &>/dev/null && [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+    exec tmux new-session
+  fi
+
+  export PATH="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:$PATH"
+fi

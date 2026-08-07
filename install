@@ -37,10 +37,12 @@ uninstall_desktop_files() {
 
 install_neovim() {
   echo 'Installing neovim'
-  curl -fLo $HOME/.local/bin/nvim --create-dirs \
-    https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage
-  # https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-  chmod +x $HOME/.local/bin/nvim
+  if [ ! -f $HOME/.local/bin/nvim ]; then
+    curl -fLo $HOME/.local/bin/nvim --create-dirs \
+      https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage
+    # https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    chmod +x $HOME/.local/bin/nvim
+  fi
 }
 
 uninstall_neovim() {
@@ -51,8 +53,8 @@ uninstall_neovim() {
 install_bashrc() {
   echo 'Installing bashrc'
   # Include my bashrc in the main one if not already included
-  INCLUDE_COMMAND="\nif [ -f $THIS_DIR/bash/bashrc ]; then\n  . $THIS_DIR/files/bashrc\nfi\n"
-  PATTERN="if [ -f $THIS_DIR/files/bashrc ]; then"
+  INCLUDE_COMMAND="\nif [ -f $THIS_DIR/bash/bashrc ]; then\n  . $THIS_DIR/bash/bashrc\nfi\n"
+  PATTERN="if [ -f $THIS_DIR/bash/bashrc ]; then"
   grep -xqF -- "$PATTERN" $HOME/.bashrc || printf "$INCLUDE_COMMAND" >>$HOME/.bashrc
 }
 

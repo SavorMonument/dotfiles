@@ -25,6 +25,7 @@ return {
     close_if_last_window = true,
     window = {
       mappings = {
+        ["/"] = "none",
         ["<cr>"] = "open_with_window_picker",
         ["<esc>"] = "none",
         ["c"] = "copy_to_clipboard",

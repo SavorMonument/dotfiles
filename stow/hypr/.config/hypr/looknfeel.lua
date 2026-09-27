@@ -20,3 +20,16 @@ hl.config({
     enabled = false,
   },
 })
+
+o.window("org.remmina.Remmina",  {
+  float = true,
+  center = true,
+  size = { 1000, 700 },
+})
+
+o.window("virt-manager",  {
+  float = true,
+  move = {"monitor_w - window_w - 50", "50"},
+  size = { 500, 700 },
+})
+

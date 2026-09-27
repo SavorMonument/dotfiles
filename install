@@ -100,6 +100,19 @@ uninstall_unison() {
   stow -D unison -d "$THIS_DIR/stow" -t ~
 }
 
+install_hyprland() {
+  echo 'Installing hypr'
+  mkdir ~/.config/hypr/old
+
+  mv ~/.config/hypr/hyprsunset.conf ~/.config/hypr/bindings.lua ~/.config/hypr/looknfeel.lua ~/.config/hypr/input.lua ~/.config/hypr/autostart.lua ~/.config/hypr/old
+  stow hypr -d "$THIS_DIR/stow" -t ~
+}
+
+uninstall_hyprland() {
+  echo 'Uninstalling unison'
+  stow -D hypr -d "$THIS_DIR/stow" -t ~
+}
+
 if [ "$ID" = "debian" ]; then
   sudo apt update
   INSTALL_CMD="sudo apt install -y"
@@ -175,3 +188,22 @@ else
   stow tmux -d "$THIS_DIR/stow" -t ~
 fi
 ### TMUX
+
+### Hyperland
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+  if [ "$1" = "--uninstall" ]; then
+    uninstall_hyprland
+  else
+    install_hyprland
+  fi
+fi
+### Hyperland
+
+### Desktop files
+if [ "$1" = "--uninstall" ]; then
+  stow -D desktop_files -d "$THIS_DIR/stow" -t ~
+else
+  mkdir -p ~/.local/share/applications/
+  stow desktop_files -d "$THIS_DIR/stow" -t ~
+fi
+### Desktop files

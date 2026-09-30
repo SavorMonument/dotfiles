@@ -113,6 +113,43 @@ uninstall_hyprland() {
   stow -D hypr -d "$THIS_DIR/stow" -t ~
 }
 
+install_tmux() {
+  echo 'Installing tmux'
+  local dotfiles_tmux_config="$THIS_DIR/tmux/.tmux.conf"
+
+  if [ -d "$HOME/.config/omarchy" ]; then
+    local omarchy_tmux_config="$HOME/.config/tmux/tmux.conf"
+    local source_command="source-file \"$dotfiles_tmux_config\""
+
+    mkdir -p "$HOME/.config/tmux"
+    touch "$omarchy_tmux_config"
+    grep -Fqx -- "$source_command" "$omarchy_tmux_config" || \
+      printf '\n%s\n' "$source_command" >>"$omarchy_tmux_config"
+  else
+    ln -sfn "$dotfiles_tmux_config" "$HOME/.tmux.conf"
+  fi
+}
+
+uninstall_tmux() {
+  echo 'Uninstalling tmux'
+  local dotfiles_tmux_config="$THIS_DIR/tmux/.tmux.conf"
+
+  if [ -d "$HOME/.config/omarchy" ]; then
+    local omarchy_tmux_config="$HOME/.config/tmux/tmux.conf"
+    local source_command="source-file \"$dotfiles_tmux_config\""
+
+    if [ -f "$omarchy_tmux_config" ]; then
+      grep -Fvx -- "$source_command" "$omarchy_tmux_config" >"$omarchy_tmux_config.tmp"
+      cat "$omarchy_tmux_config.tmp" >"$omarchy_tmux_config"
+      rm -f "$omarchy_tmux_config.tmp"
+    fi
+  else
+    if [ "$(readlink "$HOME/.tmux.conf")" = "$dotfiles_tmux_config" ]; then
+      rm -f "$HOME/.tmux.conf"
+    fi
+  fi
+}
+
 if [ "$ID" = "debian" ]; then
   sudo apt update
   INSTALL_CMD="sudo apt install -y"
@@ -183,9 +220,9 @@ fi
 
 ### TMUX
 if [ "$1" = "--uninstall" ]; then
-  stow -D tmux -d "$THIS_DIR/stow" -t ~
+  uninstall_tmux
 else
-  stow tmux -d "$THIS_DIR/stow" -t ~
+  install_tmux
 fi
 ### TMUX
 

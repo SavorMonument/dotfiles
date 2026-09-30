@@ -21,6 +21,8 @@ hl.config({
   },
 })
 
+-- hyprctl clients
+
 o.window("org.remmina.Remmina",  {
   float = true,
   center = true,
@@ -33,3 +35,8 @@ o.window("virt-manager",  {
   size = { 500, 700 },
 })
 
+o.window("eu.betterbird.Betterbird",  {
+  float = true,
+  center = true,
+  size = { 1600, 1100 },
+})

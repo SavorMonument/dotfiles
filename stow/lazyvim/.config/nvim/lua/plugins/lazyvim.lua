@@ -1,6 +1,6 @@
 return {
-	{
-		"LazyVim/LazyVim",
-		keys = {},
-	},
+  {
+    "LazyVim/LazyVim",
+    keys = {},
+  },
 }
